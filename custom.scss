@@ -1,0 +1,42 @@
+/* Tema IFSC / Oficina de Impressão 3D */
+/*-- scss:defaults --*/
+:root { color-scheme: dark; }
+/*-- scss:rules --*/
+section { font-size: 30px; color: #edf5fe; }
+.reveal { background: radial-gradient(circle at 85% 10%, #173953 0, #071827 48%, #04101c 100%); }
+.reveal .slides section { text-align: left; padding: 0.55em 0.8em; }
+.reveal h1,.reveal h2,.reveal h3 { color: #edf5fe; letter-spacing:-.025em; }
+.reveal h1 { font-size: 2.25em; line-height:1.03; }
+.reveal h2 { font-size: 1.5em; color: #5cdbdf; margin-bottom:.35em; }
+.reveal h3 { font-size: 1.05em; color: #ffad5a; }
+.reveal p,.reveal li { line-height:1.24; }
+.reveal li { margin:.18em 0; }
+.reveal strong { color: #ffad5a; }
+.reveal a { color: #5cdbdf; }
+.reveal .subtitle { color:#b7cad8; font-size:1.08em; }
+.reveal .eyebrow { color:#5cdbdf; text-transform:uppercase; letter-spacing:.16em; font-weight:700; font-size:.62em; }
+.reveal .columns { gap: 1.2em; }
+.reveal .panel,.reveal .callout { background:rgba(16,43,66,.84); border:1px solid #2f5673; border-radius:16px; padding:.55em .7em; }
+.reveal .callout { border-left:6px solid #ffad5a; }
+.reveal .tag { display:inline-block; background:#123d50; border:1px solid #5cdbdf; border-radius:999px; padding:.2em .55em; color:#d7ffff; font-size:.72em; margin:.12em; }
+.reveal table { font-size:.72em; background:rgba(16,43,66,.8); }
+.reveal table th { color:#5cdbdf; }
+.reveal table td,.reveal table th { border-color:#31516a; padding:.45em .6em; }
+.reveal img { max-height: 60vh; }
+.reveal .small { font-size:.72em; color:#b7cad8; }
+.reveal .big-number { font-size:3.6em; font-weight:800; color:#5cdbdf; }
+.reveal .center { text-align:center; }
+.reveal .title-slide { text-align:left; }
+.reveal .title-slide h1 { max-width: 11em; }
+.reveal .footer-note { position:absolute; bottom:-.2em; color:#8eabba; font-size:.48em; }
+.reveal aside.notes { font-size: 1em; }
+.reveal .photo-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:.65em; align-items:start; }
+.reveal .photo-grid.two { grid-template-columns:repeat(2,1fr); }
+.reveal .photo-card { background:rgba(16,43,66,.86); border:1px solid #31516a; border-radius:14px; padding:.32em; overflow:hidden; }
+.reveal .photo-card img { display:block; width:100%; height:210px; object-fit:cover; border-radius:10px; }
+.reveal .photo-card.tall img { height:165px; object-fit:contain; background:#0b1b2b; }
+.reveal .photo-grid.two .photo-card.tall img { height:230px; }
+.reveal .photo-card p { font-size:.62em; line-height:1.18; margin:.28em .2em .12em; }
+.reveal .photo-card strong { display:block; font-size:.72em; margin:.25em .2em .08em; }
+.reveal .photo-card small { display:block; color:#b7cad8; font-size:.48em; line-height:1.15; margin:.1em .2em .15em; }
+.reveal .credit { color:#8fa9bb; font-size:.42em; line-height:1.15; margin-top:.25em; }

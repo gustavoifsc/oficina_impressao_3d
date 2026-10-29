@@ -1,0 +1,851 @@
+---
+title: "Introdução à impressão 3D"
+subtitle: "Oficina prática de introdução à impressão 3D · 180 minutos"
+author: "IFSC · Oficina presencial"
+lang: pt-BR
+format:
+  revealjs:
+    theme: default
+    css: custom.scss
+    slide-number: true
+    width: 1600
+    height: 900
+    margin: 0.06
+    center: false
+    transition: fade
+    controls: true
+    progress: true
+    preview-links: true
+    embed-resources: true
+    self-contained-math: true
+    chalkboard: false
+execute:
+  echo: false
+  warning: false
+---
+
+## Objetivos da oficina
+
+Nesta oficina, vamos acompanhar uma Ender 3 Pro fabricando um brinde e analisar um modelo Benchy no PrusaSlicer.
+
+### Ao final da oficina, você deverá conseguir
+
+- explicar a diferença entre fabricação aditiva, subtrativa e formativa;
+- reconhecer os principais componentes de uma impressora FDM;
+- baixar, extrair e executar um aplicativo portátil no Windows;
+- importar um STL, fatiá-lo e interpretar o preview por camadas;
+- relacionar uma decisão de configuração com tempo, material e qualidade.
+
+::: {.callout}
+**A impressão começa agora.** Observe tempo, camadas, movimentos e acabamento. O resultado será sorteado ao final.
+:::
+
+::: {.notes}
+Apresente os objetivos e combine a rotina: a máquina fica sob observação do professor; os participantes trabalham nos computadores. Mostre fisicamente o filamento e o brinde ainda em fabricação.
+:::
+
+## Processos de fabricação: exemplos reais
+
+:::: {.photo-grid}
+::: {.photo-card}
+![](recursos/fotos/fdm-impressora.jpg)
+**FDM/FFF · filamento**  
+O bico deposita termoplástico aquecido.
+:::
+::: {.photo-card}
+![](recursos/fotos/sla-resina.jpg)
+**SLA/MSLA · resina**  
+Uma fonte de luz cura regiões da resina.
+:::
+::: {.photo-card}
+![](recursos/fotos/sls-po.jpg)
+**SLS · pó**  
+Um laser sinteriza seletivamente o leito de pó.
+:::
+::::
+
+::: {.credit}
+Fotos: [3D-PRINTER.jpg](https://commons.wikimedia.org/wiki/File:3D-PRINTER.jpg), [Elegoo mars.jpg](https://commons.wikimedia.org/wiki/File:Elegoo_mars.jpg) e [Sharebot SnowWhite SLS](https://commons.wikimedia.org/wiki/File:3D_Printshow_2014_London_-_Sharebot_SnowWhite_SLS_3D_printer_v04_(15147924241).jpg), Wikimedia Commons. Licenças indicadas nas páginas-fonte.
+:::
+
+::: {.notes}
+Na foto de FDM, procure o pórtico e a mesa. Na de resina, observe a cuba e a tampa; mencione luvas, lavagem e cura como parte do processo. Na SLS, o pó ao redor sustenta a peça, reduzindo a necessidade de suportes convencionais.
+:::
+
+## Aditivo, subtrativo e formativo
+
+:::: {.photo-grid}
+::: {.photo-card}
+![](recursos/fotos/usinagem-cnc.jpg)
+**Usinagem CNC**  
+Uma ferramenta remove material de um bloco.
+::::
+::: {.photo-card}
+![](recursos/fotos/injecao-plastico.jpg)
+**Injeção de plástico**  
+Material fundido preenche um molde.
+:::
+::: {.photo-card}
+![](recursos/fotos/fdm-impressora.jpg)
+**Impressão FDM**  
+Material é adicionado somente onde necessário.
+:::
+::::
+
+::: {.credit}
+Fotos: [CNC milling machine.jpg](https://commons.wikimedia.org/wiki/File:CNC_milling_machine.jpg), [Injection moulding machine.jpg](https://commons.wikimedia.org/wiki/File:Injection_moulding_machine.jpg) e [3D-PRINTER.jpg](https://commons.wikimedia.org/wiki/File:3D-PRINTER.jpg), Wikimedia Commons.
+:::
+
+::: {.notes}
+Use a comparação para discutir volume de produção. A impressão 3D favorece variedade e personalização; moldes e usinagem podem ser mais adequados quando o volume, a precisão ou o material justificam o processo.
+:::
+
+## Impressoras de bancada: duas propostas
+
+<div class="photo-grid two">
+<div class="photo-card tall">
+<img src="recursos/fotos/creality-ender-3x.jpg" alt="Kit de uma impressora Creality Ender 3">
+<p><strong>Creality Ender 3</strong><br>
+Arquitetura aberta, montagem acessível e grande comunidade de modificações.</p>
+</div>
+<div class="photo-card tall">
+<img src="recursos/fotos/bambu-x1-carbon-ams.jpg" alt="Impressora Bambu Lab X1 Carbon com módulo AMS">
+<p><strong>Bambu Lab X1 Carbon + AMS</strong><br>
+Máquina fechada, automação e troca de filamento para trabalhos multicoloridos.</p>
+</div>
+</div>
+
+::: {.credit}
+Fotos: [Ender 3x 3D printer kit](https://commons.wikimedia.org/wiki/Category:Creality_Ender_3), Wikimedia Commons; [Bambu Lab X1 Carbon with AMS module](https://commons.wikimedia.org/wiki/File:Bambu_Lab_X1_Carbon_with_AMS_module.jpg), CC BY-SA 4.0, Benlisquare.
+:::
+
+::: {.notes}
+Compare as propostas sem transformar a comparação em ranking. A Ender 3 é didática para visualizar e ajustar componentes; a Bambu Lab mostra a tendência de maior automação, sensores e integração de hardware e software. Marcas e modelos mudam, mas os princípios de deposição, temperatura, fluxo e camadas continuam.
+:::
+
+## Filamento: a matéria-prima do FDM
+
+<div class="photo-grid two">
+<div class="photo-card">
+<img src="recursos/fotos/filamentos-coloridos.jpg" alt="Filamentos coloridos para impressão 3D">
+<p><strong>Cores e diâmetros</strong><br>
+O diâmetro nominal precisa ser compatível com o extrusor e o perfil da máquina.</p>
+</div>
+<div class="photo-card">
+<img src="recursos/fotos/fdm-impressora.jpg" alt="Impressora FDM trabalhando com filamento">
+<p><strong>Do rolo ao bico</strong><br>
+Umidade, temperatura, fluxo e armazenamento afetam diretamente o resultado.</p>
+</div>
+</div>
+
+::: {.credit}
+Foto dos filamentos: [3D-Druck-Filament in verschiedenen Farben](https://commons.wikimedia.org/wiki/File:3D-Druck-Filament_in_verschiedenen_Farben.jpg), Wikimedia Commons. Foto da impressora: [3D-PRINTER.jpg](https://commons.wikimedia.org/wiki/File:3D-PRINTER.jpg), Wikimedia Commons.
+:::
+
+::: {.notes}
+Mostre que “filamento colorido” não define sozinho o material. Diferencie PLA, PETG, ABS/ASA e TPU, e explique que filamento úmido pode gerar bolhas, fios e superfície irregular. Armazene materiais sensíveis em embalagem seca.
+:::
+
+## FDM colorida: como a cor chega à peça?
+
+::: {.columns}
+::: {.column width="52%"}
+Uma impressora FDM colorida continua depositando **uma linha de filamento por vez**. A diferença está em como o sistema seleciona, corta, purga ou combina os filamentos.
+
+### O fatiador precisa saber
+- quais cores estão disponíveis;
+- qual material está em cada canal;
+- quando inserir uma troca;
+- quanto material será usado na purga.
+:::
+::: {.column width="48%"}
+```{=html}
+<svg viewBox="0 0 470 330" xmlns="http://www.w3.org/2000/svg"><rect width="470" height="330" rx="20" fill="#102b42"/><g stroke="#edf5fe" stroke-width="10" fill="none" stroke-linecap="round"><path d="M80 55v75" stroke="#ff6b8a"/><path d="M235 55v75" stroke="#5cdbdf"/><path d="M390 55v75" stroke="#ffad5a"/></g><path d="M80 130h155v32h80" fill="none" stroke="#edf5fe" stroke-width="8"/><path d="M235 130v32" fill="none" stroke="#edf5fe" stroke-width="8"/><path d="M315 162v48" fill="none" stroke="#edf5fe" stroke-width="8"/><path d="M280 210h70l-35 45z" fill="#5cdbdf"/><path d="M95 285h280" stroke="#ffad5a" stroke-width="12"/><g fill="#edf5fe" font-family="Arial" font-size="20" text-anchor="middle"><text x="80" y="35">A</text><text x="235" y="35">B</text><text x="390" y="35">C</text><text x="315" y="295">uma troca por vez</text></g></svg>
+```
+:::
+:::
+
+::: {.notes}
+Use o desenho para separar duas ideias que às vezes são confundidas: ter vários rolos disponíveis não significa que o bico deposita várias cores simultaneamente. Em muitos sistemas, a troca acontece durante uma pausa ou durante uma sequência automatizada de descarregamento, carregamento e purga.
+:::
+
+## Estratégias para imprimir em várias cores
+
+| Estratégia | Como funciona | Vantagem | Custo ou limite |
+|---|---|---|---|
+| troca manual | pausa e substituição do filamento | barato e simples | exige intervenção; melhor para faixas por altura |
+| dois bicos | cada extrusor recebe um filamento | troca rápida em alguns modelos | calibração, alinhamento e tamanho do conjunto |
+| trocador de filamento | seleciona vários rolos para um bico | muitas cores com um hotend | tempo e material de purga |
+| mistura de cores | extrusores combinam filamentos | gradientes e misturas | controle mais complexo e transições menos previsíveis |
+
+::: {.callout}
+Trocar de cor não é “gratuito”: o sistema precisa evitar que a cor anterior contamine a próxima.
+:::
+
+::: {.notes}
+Diferencie mudança por altura — fácil de fazer com uma pausa — de mudança dentro da mesma camada, que exige troca automática ou múltiplos bicos. A nomenclatura comercial varia entre fabricantes; ensine o princípio mecânico.
+:::
+
+## FDM colorida: purga, torre e desperdício
+
+<div class="photo-grid two">
+<div class="photo-card tall">
+<img src="recursos/fotos/bambu-x1-carbon-ams.jpg" alt="Bambu Lab X1 Carbon com módulo de alimentação de filamentos">
+<p><strong>Alimentação multicolorida</strong><br>
+O sistema seleciona o rolo e conduz o filamento até o hotend.</p>
+</div>
+<div class="photo-card">
+<img src="recursos/fotos/filamentos-coloridos.jpg" alt="Filamentos de várias cores">
+<p><strong>O que o preview revela</strong><br>
+Procure trocas, torre de purga, material descartado e tempo adicional.</p>
+</div>
+</div>
+
+1. o filamento antigo é retraído;
+2. o novo filamento é carregado;
+3. o bico purga a cor residual;
+4. a impressão retoma a trajetória da peça.
+
+::: {.credit}
+Foto da Bambu Lab: [Bambu Lab X1 Carbon with AMS module](https://commons.wikimedia.org/wiki/File:Bambu_Lab_X1_Carbon_with_AMS_module.jpg), CC BY-SA 4.0, Benlisquare. Foto dos filamentos: [3D-Druck-Filament in verschiedenen Farben](https://commons.wikimedia.org/wiki/File:3D-Druck-Filament_in_verschiedenen_Farben.jpg), Wikimedia Commons.
+:::
+
+::: {.notes}
+Abra o preview do PrusaSlicer ou mostre uma torre de purga preparada previamente. Discuta o compromisso: mais cores e mais trocas podem aumentar o tempo e o consumo, mesmo que a peça final seja pequena. A purga pode ser direcionada para uma torre ou para um objeto auxiliar, dependendo do fatiador.
+:::
+
+## Vídeos recomendados para continuar
+
+::: {.columns}
+::: {.column}
+### Processos de impressão
+- [Como funciona uma impressora FDM](https://www.youtube.com/watch?v=WA9iZ_EzcH4) — animação de mecânica e componentes.
+- [FDM × SLA × SLS](https://www.youtube.com/watch?v=4wHonWbx3fo) — comparação de fluxo, materiais e pós-processamento.
+- [Introdução à estereolitografia](https://www.youtube.com/watch?v=Ei2HGPhHPCY) — Formlabs, com foco em resina.
+:::
+::: {.column}
+### Máquinas e software
+- [Playlist oficial do PrusaSlicer](https://www.prusa3d.com/en/page/prusaslicer_426/) — recursos do fatiador.
+- [Vídeos da Bambu Lab](https://www.youtube.com/@BambuLab/videos) — automação e impressão multicolorida.
+- [Vídeos da Haas Automation](https://www.youtube.com/@HaasAutomation/videos) — CNC, ferramentas e automação industrial.
+:::
+:::
+
+::: {.notes}
+Não é necessário exibir todos os vídeos durante a oficina. Escolha um trecho curto de FDM para introdução, um trecho do comparativo para conectar as tecnologias e, se houver tempo, um vídeo de automação industrial como fechamento.
+:::
+
+## Resina: detalhe, luz e pós-processamento
+
+<div class="photo-grid two">
+<div class="photo-card tall">
+<img src="recursos/fotos/sla-resina.jpg" alt="Impressora de resina com cuba e tampa">
+<p><strong>Impressora SLA/MSLA</strong><br>
+Uma fonte de luz cura seletivamente a resina líquida.</p>
+</div>
+<div class="photo-card tall">
+<img src="recursos/fotos/resina-pecas.jpg" alt="Peças de resina ainda presas à plataforma de impressão">
+<p><strong>Peça antes da limpeza</strong><br>
+Lavagem, remoção de suportes e cura UV fazem parte do processo.</p>
+</div>
+</div>
+
+::: {.credit}
+Fotos: [Elegoo mars.jpg](https://commons.wikimedia.org/wiki/File:Elegoo_mars.jpg) e [Résultat d’une impression 3D avant nettoyage](https://commons.wikimedia.org/wiki/File:R%C3%A9sultat_d%E2%80%99une_impression_3D_avant_nettoyage.jpg), Wikimedia Commons.
+:::
+
+::: {.notes}
+Explique que a alta resolução não elimina as etapas de pós-processamento. Resina líquida exige luvas, ventilação, proteção contra contato e descarte responsável; não deve ser tratada como PLA líquido.
+:::
+
+## Impressão em pó: SLS e o leito de fabricação
+
+<div class="photo-grid two">
+<div class="photo-card tall">
+<img src="recursos/fotos/sls-po.jpg" alt="Impressora 3D SLS para fabricação com pó">
+<p><strong>Leito de pó</strong><br>
+O material não sinterizado ao redor da peça pode oferecer suporte geométrico.</p>
+</div>
+<div class="photo-card">
+<img src="recursos/fotos/cnc-robo.jpg" alt="Centro de usinagem CNC com robô industrial">
+<p><strong>Depois da fabricação</strong><br>
+Peças técnicas podem seguir para limpeza, inspeção, usinagem ou acabamento.</p>
+</div>
+</div>
+
+::: {.credit}
+Foto SLS: [Sharebot SnowWhite SLS](https://commons.wikimedia.org/wiki/File:3D_Printshow_2014_London_-_Sharebot_SnowWhite_SLS_3D_printer_v04_(15147924241).jpg), Wikimedia Commons. A foto CNC é usada no slide seguinte como comparação industrial.
+:::
+
+::: {.notes}
+Destaque a diferença entre “imprimir com pó” e simplesmente depositar filamento. Em SLS, laser e parâmetros térmicos controlam a sinterização; o pós-processamento inclui remoção e recuperação do pó conforme o equipamento e o material.
+:::
+
+## Escala industrial: CNC robotizada e injeção
+
+<div class="photo-grid two">
+<div class="photo-card">
+<img src="recursos/fotos/cnc-robo.jpg" alt="Centro de usinagem CNC automatizado com robô">
+<p><strong>Usinagem CNC automatizada</strong><br>
+Remove material com ferramentas rígidas; robôs podem carregar, descarregar e organizar peças.</p>
+</div>
+<div class="photo-card">
+<img src="recursos/fotos/injecao-robo.jpg" alt="Máquina de injeção de plástico com braço robótico">
+<p><strong>Injeção de plástico</strong><br>
+Um molde define a forma e a automação favorece alta repetibilidade e volume.</p>
+</div>
+</div>
+
+::: {.credit}
+Fotos: [EGU-Metall CNC-Fräsen mit Roboterautomatisierung](https://commons.wikimedia.org/wiki/File:EGU-Metall_CNC-Fr%C3%A4sen_mit_Roboterautomatisierung.jpg) e [Injection Molding Machine with a robot arm](https://commons.wikimedia.org/wiki/File:Injection_Molding_Machine_with_a_robot_arm.jpg), Wikimedia Commons.
+:::
+
+::: {.notes}
+Use as fotos para reforçar a escolha de processo. CNC e injeção não são “concorrentes inferiores” à impressão 3D: podem ser superiores em tolerância, acabamento, produtividade ou custo unitário quando o contexto justifica.
+:::
+
+## Componentes reais: hotend e extrusão
+
+::: {.columns}
+::: {.column width="48%"}
+![](recursos/fotos/hotend.jpg)
+:::
+::: {.column width="52%"}
+### Observe na fotografia
+
+- dissipador e tubo de condução;
+- bloco aquecedor;
+- bico/nozzle;
+- caminho do filamento;
+- ventilação do hotend.
+
+O hotend controla a fusão; o extrusor controla a alimentação. São funções relacionadas, mas não são a mesma peça.
+:::
+:::
+
+::: {.credit}
+Foto: [Hotend.jpg](https://commons.wikimedia.org/wiki/File:Hotend.jpg), Wikimedia Commons.
+:::
+
+::: {.notes}
+Mostre o conjunto físico da Ender 3 Pro e compare com a fotografia. O bico é consumível; o bloco e o dissipador trabalham em faixas térmicas diferentes. Não toque no conjunto durante a impressão.
+:::
+
+## Componentes reais: placa, fonte e mecânica
+
+<div class="photo-grid">
+<div class="photo-card tall">
+<img src="recursos/fotos/btt-skr-mini-e3.png" alt="Placa BTT SKR Mini E3 V3.0">
+<p><strong>BTT SKR Mini E3 V3.0</strong><br>
+Placa de controle: interpreta o G-code e aciona motores, aquecedores e sensores.</p>
+</div>
+<div class="photo-card tall">
+<img src="recursos/fotos/eletronica-fonte.jpg" alt="Fonte e eletrônica de uma impressora 3D">
+<p><strong>Eletrônica e fonte</strong><br>
+A fonte fornece energia; conexões e ventilação importam.</p>
+</div>
+<div class="photo-card tall">
+<img src="recursos/fotos/correia-rolamento.jpg" alt="Correia e rolamento do eixo de uma impressora 3D">
+<p><strong>Correia e rolamento</strong><br>
+Transmitem movimento e guiam o eixo com baixa folga.</p>
+</div>
+</div>
+
+::: {.credit}
+Foto da placa: documentação da [BTT SKR Mini E3 V3.0](https://github.com/bigtreetech); demais fotos: [Electronics of 3D Printer.jpg](https://commons.wikimedia.org/wiki/File:Electronics_of_3D_Printer.jpg) e [Y-axis y-belt and bearing.jpg](https://commons.wikimedia.org/wiki/File:Y-axis_y-belt_and_bearing.jpg), Wikimedia Commons.
+:::
+
+::: {.notes}
+Conecte cada fotografia ao diagrama da Ender 3. A placa não “sabe” o modelo 3D: ela executa comandos já calculados pelo fatiador. Correias tensionadas demais aumentam desgaste; frouxas aumentam folga e artefatos.
+:::
+
+## Mapa da oficina
+
+| Bloco | Tempo | Saída esperada |
+|---|---:|---|
+| Contexto e fundamentos | 0–25 min | Entender o que muda na fabricação aditiva |
+| Tecnologias, FDM e Ender 3 Pro | 25–80 min | Reconhecer mecanismos e componentes |
+| PrusaSlicer + Benchy | 80–115 min | Baixar, importar e fatiar um Benchy |
+| Intervalo | 115–125 min | — |
+| Preview, diagnóstico e decisões | 125–165 min | Comparar configurações e justificar escolhas |
+| Fechamento | 165–180 min | Aplicações, impressão e sorteio |
+
+::: {.notes}
+Avise que o cronograma é flexível: a prática e a segurança têm prioridade. Durante a impressão, faça conexões com os conceitos vistos.
+:::
+
+## O que é fabricação aditiva?
+
+::: {.columns}
+::: {.column width="52%"}
+### Material é colocado onde precisa
+
+Um objeto é construído **camada a camada** a partir de um modelo digital. A geometria nasce por adição localizada de material.
+
+::: {.callout}
+Não é “imprimir uma imagem”: é executar uma sequência de trajetórias em três dimensões.
+:::
+:::
+::: {.column width="48%"}
+```{=html}
+<svg viewBox="0 0 420 300" xmlns="http://www.w3.org/2000/svg"><rect width="420" height="300" rx="22" fill="#102b42"/><g fill="#ffad5a"><rect x="70" y="220" width="280" height="18"/><rect x="95" y="185" width="230" height="18"/><rect x="120" y="150" width="180" height="18"/><rect x="145" y="115" width="130" height="18"/></g><path d="M200 55v55" stroke="#5cdbdf" stroke-width="10"/><path d="M175 110h50l-25 35z" fill="#5cdbdf"/><text x="210" y="275" fill="#edf5fe" text-anchor="middle" font-family="Arial" font-size="22">adição localizada</text></svg>
+```
+:::
+:::
+
+## Comparação entre processos de fabricação
+
+| Processo | O que acontece | Vantagem típica | Limitação típica |
+|---|---|---|---|
+| **Aditivo** | adiciona material | geometrias internas e personalização | anisotropia, tempo por peça |
+| Subtrativo | remove de um bloco | precisão e materiais variados | desperdício, acesso da ferramenta |
+| Formativo | molda/transforma | custo baixo em grande volume | molde e projeto inicial |
+
+::: {.notes}
+Destaque que “aditivo” não significa automaticamente melhor. A escolha depende de volume, material, tolerância, acabamento, custo e prazo.
+:::
+
+## Linha do tempo da impressão 3D
+
+```{=html}
+<svg viewBox="0 0 1200 330" xmlns="http://www.w3.org/2000/svg"><rect width="1200" height="330" rx="24" fill="#102b42"/><path d="M90 170H1110" stroke="#5cdbdf" stroke-width="6"/><g font-family="Arial" text-anchor="middle"><g fill="#ffad5a"><circle cx="150" cy="170" r="16"/><circle cx="430" cy="170" r="16"/><circle cx="720" cy="170" r="16"/><circle cx="1040" cy="170" r="16"/></g><g fill="#edf5fe" font-size="25"><text x="150" y="85">1984–86</text><text x="150" y="120">SLA</text><text x="150" y="220">estereolitografia</text><text x="430" y="85">1989–92</text><text x="430" y="120">FDM</text><text x="430" y="220">deposição de filamento</text><text x="720" y="85">2005</text><text x="720" y="120">RepRap</text><text x="720" y="220">hardware aberto</text><text x="1040" y="85">2010s →</text><text x="1040" y="120">popularização</text><text x="1040" y="220">desktop + comunidades</text></g></g></svg>
+```
+
+::: {.notes}
+SLA foi patenteada e comercializada por Chuck Hull nos anos 1980. FDM foi desenvolvida por Scott Crump; o termo é marca registrada, por isso FFF é usado como nome genérico. O RepRap acelerou a experimentação com projetos abertos.
+:::
+
+## Três famílias, três mecanismos
+
+![Comparação entre FDM/FFF, SLA/MSLA e SLS](recursos/tecnologias.svg)
+
+::: {.notes}
+FDM/FFF derrete termoplástico. SLA/MSLA cura resina fotopolimérica e exige pós-processamento. SLS sinteriza pó com laser; a própria cama de pó ajuda a sustentar a peça. Não compare apenas “resolução”: materiais, segurança, volume e acabamento também importam.
+:::
+
+## FDM: o ciclo de uma camada
+
+![Bico depositando filamento em camadas](recursos/fdm-camadas.svg)
+
+1. O motor do extrusor empurra o filamento.
+2. O hotend aquece até a faixa adequada do material.
+3. O bico deposita uma linha com largura e velocidade controladas.
+4. A mesa ou o pórtico se desloca para a próxima camada.
+
+::: {.notes}
+Explique que o bico não “desenha livremente”: o fatiador transforma perímetros, preenchimento, suportes e deslocamentos em G-code. A adesão entre linhas e camadas depende de temperatura, resfriamento, velocidade e geometria.
+:::
+
+## A Ender 3 Pro por dentro
+
+![Diagrama dos componentes principais da Ender 3 Pro](recursos/ender3-componentes.svg)
+
+::: {.notes}
+Identifique na máquina real: perfis e roscas da estrutura, motores de X/Y/Z, mesa aquecida, extrusor, tubo Bowden, hotend, bico, ventiladores e placa de controle. A versão da máquina pode ter modificações; ensine a reconhecer a função, não somente o formato.
+:::
+
+## O que cada parte controla
+
+| Subsistema | Função | Sintoma quando há problema |
+|---|---|---|
+| Extrusor / hotend | fundir e dosar material | subextrusão, entupimento |
+| Eixos X/Y/Z | posicionar o bico/mesa | deslocamento, camada irregular |
+| Mesa | sustentar e aquecer | warping, peça solta |
+| Ventilação | solidificar e resfriar | pontes ruins, deformação |
+| Eletrônica | interpretar G-code e acionar motores | falhas, ruído, parada |
+
+## Materiais: escolha é compromisso
+
+::: {.columns}
+::: {.column}
+### PLA
+Fácil, rígido, baixa contração. Bom ponto de partida; não é ideal para calor elevado.
+
+### PETG
+Mais tenaz e resistente a temperatura; pode formar fios e aderir demais à mesa.
+:::
+::: {.column}
+### ABS / ASA
+Resistentes e mais exigentes: contração, ambiente controlado e ventilação adequada.
+
+### TPU
+Flexível; exige caminho do filamento bem guiado e velocidades menores.
+:::
+:::
+
+::: {.notes}
+As faixas de temperatura são dependentes do fabricante, diâmetro, máquina e perfil. Não apresente um número universal. Para a prática, PLA é a escolha mais previsível.
+:::
+
+## Cinco parâmetros que mudam o resultado
+
+<span class="tag">altura de camada</span> <span class="tag">largura de linha</span> <span class="tag">paredes</span> <span class="tag">preenchimento</span> <span class="tag">suportes</span>
+
+::: {.columns}
+::: {.column}
+**Altura menor** → mais detalhe vertical, mais camadas e tempo.
+
+**Mais paredes** → resistência nas superfícies e maior consumo.
+:::
+::: {.column}
+**Mais preenchimento** não resolve tudo: orientação e paredes importam.
+
+**Suporte** viabiliza balanços, mas deixa marcas e exige remoção.
+:::
+:::
+
+::: {.notes}
+Mostre a relação entre qualidade, tempo e material. Introduza retração como recolhimento do filamento durante deslocamentos sem extrusão; ela reduz fios, mas excesso pode causar falhas no reinício.
+:::
+
+## Geometria e arquivos: o que pode dar errado
+
+::: {.columns}
+::: {.column}
+### No modelo
+- malha aberta ou superfícies invertidas;
+- paredes mais finas que o bico consegue formar;
+- detalhes pequenos demais para a escala;
+- folgas insuficientes entre peças móveis.
+:::
+::: {.column}
+### No arquivo
+- STL guarda a superfície, não o projeto paramétrico;
+- unidades podem causar escala incorreta;
+- 3MF pode transportar perfil e configurações;
+- sempre confira dimensões e orientação no fatiador.
+:::
+:::
+
+::: {.callout}
+Um arquivo baixado não é automaticamente imprimível: a geometria precisa ser conferida no contexto da máquina, do bico e do material.
+:::
+
+::: {.notes}
+Use este slide para diferenciar um problema de modelagem de um problema de fatiamento. Peça que os participantes apontem qual erro seria percebido antes mesmo de clicar em “Slice now”.
+:::
+
+## Do modelo ao movimento da máquina
+
+![Fluxo de produção: modelagem, arquivo, fatiamento, G-code e impressão](recursos/fluxo.svg)
+
+::: {.notes}
+STL descreve superfícies trianguladas; 3MF pode transportar unidades, materiais e configurações. Nenhum dos dois é “o arquivo que a impressora entende”. O G-code é específico para máquina, firmware e perfil.
+:::
+
+## Antes de imprimir: pense como engenheiro
+
+::: {.columns}
+::: {.column}
+### Geometria
+- paredes com espessura real;
+- folgas para peças móveis;
+- orientação e balanços;
+- raio ou chanfro onde necessário.
+:::
+::: {.column}
+### Uso
+- carga e temperatura;
+- acabamento desejado;
+- tolerância dimensional;
+- segurança e pós-processamento.
+:::
+:::
+
+## Prática 1 · preparar as ferramentas
+
+<div class="big-number">35 min</div>
+
+**Entrega:** o PrusaSlicer aberto, o Benchy importado e um primeiro fatiamento pronto para análise.
+
+1. Baixe o ZIP do **PrusaSlicer para Windows** na página oficial.
+2. Extraia o ZIP em uma pasta local — por exemplo, `C:\Ferramentas\PrusaSlicer`.
+3. Execute `prusa-slicer.exe`. O pacote portátil não exige instalação administrativa.
+4. Baixe o arquivo `3DBenchy.stl` do Thingiverse e salve-o na mesma pasta de trabalho.
+
+::: {.notes}
+O download precisa ser feito antes da apresentação se a oficina for totalmente offline. A página oficial informa que a versão Windows é distribuída como ZIP; a primeira execução pode pedir a seleção da região, idioma e perfil de impressora. Não execute arquivos de procedência desconhecida.
+:::
+
+## Downloads · use fontes confiáveis
+
+::: {.columns}
+::: {.column}
+### PrusaSlicer
+Página oficial: [help.prusa3d.com/downloads/prusaslicer](https://help.prusa3d.com/downloads/prusaslicer)
+
+Escolha o ZIP **Windows Win64**. Extraia tudo antes de executar.
+:::
+::: {.column}
+### 3DBenchy
+Modelo original: [thingiverse.com/thing:763622](https://www.thingiverse.com/thing:763622)
+
+Em **Thing Files**, baixe o `3DBenchy.stl` — não uma imagem nem um arquivo de projeto.
+:::
+:::
+
+::: {.notes}
+O Thingiverse pode apresentar vários arquivos e anúncios. Para esta atividade, use o Benchy original em STL e preserve o arquivo sem renomear a extensão. A atividade é sobre preparação, fatiamento e leitura do resultado, não sobre modelagem.
+:::
+
+## Prática 1 · importe o Benchy
+
+::: {.columns}
+::: {.column}
+### No PrusaSlicer
+1. Arraste `3DBenchy.stl` para a janela.
+2. Aceite a conversão para o formato interno, se aparecer.
+3. Confirme que o barco está apoiado na mesa.
+:::
+::: {.column}
+### Antes de fatiar
+- confira escala e unidades;
+- selecione uma impressora disponível;
+- escolha PLA e o bico instalado;
+- mantenha as configurações padrão.
+:::
+:::
+
+::: {.notes}
+O perfil selecionado altera limites de volume, temperaturas, velocidades e G-code. O professor deve verificar o modelo exato da máquina antes de enviar qualquer arquivo para a Ender 3 Pro.
+:::
+
+## Antes de fatiar: faça uma previsão
+
+::: {.columns}
+::: {.column}
+### Observe o Benchy
+- a base tem área suficiente?
+- quais paredes são finas?
+- onde há balanços ou pontes?
+- quais detalhes exigem boa resolução?
+:::
+::: {.column}
+### Registre sua hipótese
+- haverá suportes?
+- onde aparecerão fios?
+- qual parte será mais lenta?
+- que região pode perder detalhes?
+:::
+:::
+
+::: {.callout}
+Primeiro faça uma previsão. Depois use o preview para confirmar ou refutar cada hipótese.
+:::
+
+::: {.notes}
+Dê dois ou três minutos para cada participante anotar uma previsão. O objetivo é transformar o preview em uma ferramenta de investigação, e não apenas em uma imagem final.
+:::
+
+## Intervalo · 10 min
+
+::: {.center}
+## Pausa rápida
+
+Observe a impressora com segurança: **não toque no bico ou na mesa aquecida**.
+
+Volte com o PrusaSlicer aberto e o Benchy importado.
+:::
+
+::: {.notes}
+Use o intervalo para verificar a primeira camada do brinde. Não permita que participantes alcancem partes quentes ou móveis.
+:::
+
+## Prática 2 · fatiar com o PrusaSlicer
+
+### 1 · manter o perfil padrão
+
+1. Confirme a impressora e o bico selecionados.
+2. Use o modo **Print settings** com o perfil padrão.
+3. Não altere altura de camada, preenchimento ou suportes nesta primeira rodada.
+4. Clique em **Slice now**.
+
+::: {.callout}
+O objetivo é comparar o resultado de uma configuração reproduzível. Depois, podemos investigar qual parâmetro explica cada detalhe do Benchy.
+:::
+
+## O que o perfil padrão decide?
+
+| Ajuste | Ponto de partida didático | Efeito principal |
+|---|---:|---|
+| Altura de camada | 0,20 mm | detalhe × tempo |
+| Paredes / perímetros | perfil padrão | resistência superficial |
+| Preenchimento | perfil padrão | massa e rigidez |
+| Suportes | perfil padrão | balanços × marcas |
+| Adesão | perfil padrão | primeira camada |
+
+::: {.notes}
+Os números podem variar conforme a versão do PrusaSlicer e o perfil selecionado. O foco é localizar as categorias e observar o resultado, não decorar uma receita.
+:::
+
+## Compare configurações: uma variável por vez
+
+| Experimento | Alteração | O que observar |
+|---|---|---|
+| A | altura 0,15 mm × 0,30 mm | detalhe vertical e tempo |
+| B | 10% × 30% de preenchimento | massa, tempo e rigidez interna |
+| C | 2 × 4 perímetros | paredes e resistência superficial |
+| D | suportes desligados × ligados | balanços, marcas e material extra |
+
+::: {.callout}
+Não mude quatro parâmetros ao mesmo tempo: assim fica difícil saber qual alteração causou o efeito observado.
+:::
+
+::: {.notes}
+Se o tempo da oficina permitir, cada dupla pode fazer um experimento diferente e compartilhar o resultado. O padrão original deve ser preservado para comparação.
+:::
+
+## PrusaSlicer · leia o preview
+
+::: {.columns}
+::: {.column width="58%"}
+### Investigue o Benchy
+- onde começa a primeira camada?
+- quais paredes são perímetros?
+- onde aparecem pontes e balanços?
+- como o preenchimento se distribui?
+- quais partes revelam a qualidade do fluxo?
+:::
+::: {.column width="42%"}
+```{=html}
+<svg viewBox="0 0 420 340" xmlns="http://www.w3.org/2000/svg"><rect width="420" height="340" rx="20" fill="#102b42"/><g fill="none" stroke="#ffad5a" stroke-width="9"><path d="M80 270h260M100 240h220M120 210h180M140 180h140M160 150h100"/></g><path d="M55 285h310" stroke="#5cdbdf" stroke-width="7"/><g fill="#edf5fe" font-family="Arial" font-size="22"><text x="210" y="45" text-anchor="middle">camada 42</text><text x="210" y="320" text-anchor="middle">controle de camadas</text></g></svg>
+```
+:::
+:::
+
+## PrusaSlicer · tempo, material e G-code
+
+1. Clique em **Slice now**.
+2. Compare tempo e massa estimados.
+3. Examine a prévia: paredes, preenchimento, suportes e deslocamentos.
+4. Salve o projeto do PrusaSlicer para repetir o experimento.
+5. Exporte o G-code somente após conferir a máquina e o cartão/USB.
+
+::: {.callout}
+O tempo exibido é uma estimativa. A impressão real pode variar com aceleração, pausas, temperatura e firmware.
+:::
+
+## Orientação da peça: três decisões diferentes
+
+::: {.columns}
+::: {.column}
+### Melhor acabamento
+Mais faces importantes voltadas para cima e menos marcas de suporte.
+:::
+::: {.column}
+### Mais resistência
+As camadas devem acompanhar a direção das cargas; a resistência entre camadas é diferente da resistência dentro da camada.
+:::
+::: {.column}
+### Mais estabilidade
+Uma base maior reduz o risco de descolamento, mas pode aumentar tempo e material.
+:::
+:::
+
+::: {.notes}
+Explique que não existe uma orientação universalmente melhor. A escolha depende do uso da peça. Relacione o casco, a chaminé e os detalhes do Benchy com acabamento, resistência e estabilidade.
+:::
+
+## Diagnóstico de falhas: observe antes de mexer
+
+| Sintoma | Causas prováveis | Primeira verificação |
+|---|---|---|
+| fios entre partes | retração, temperatura, umidade | preview, temperatura e retração |
+| cantos levantados | contração, mesa fria ou suja | adesão e temperatura da mesa |
+| camada deslocada | correia, polia, colisão ou aceleração | aperto mecânico e trajetória |
+| linhas faltando | entupimento, fluxo ou tensão no extrusor | caminho do filamento e hotend |
+| primeira camada irregular | nivelamento ou malha da mesa | altura do bico e superfície |
+
+::: {.callout}
+Diagnóstico é uma hipótese testável: altere uma causa por vez e compare com uma impressão ou preview de referência.
+:::
+
+::: {.notes}
+Não apresente a tabela como receita absoluta. O mesmo sintoma pode ter mais de uma causa. Peça que os participantes escolham uma linha e expliquem qual evidência procurariam antes de alterar o perfil.
+:::
+
+## Segurança e confiabilidade
+
+::: {.columns}
+::: {.column}
+### Durante a impressão
+- mantenha cabos e mãos longe dos eixos;
+- não toque em bico/mesa aquecidos;
+- observe ruídos e deslocamentos;
+- interrompa se houver risco.
+:::
+::: {.column}
+### Controle de qualidade
+- primeira camada aderida;
+- fluxo sem falhas;
+- dimensões compatíveis;
+- acabamento adequado ao uso.
+:::
+:::
+
+## Desafio rápido: escolha a primeira verificação
+
+Relacione cada sintoma com a primeira hipótese a investigar:
+
+| Situação observada | Primeira verificação |
+|---|---|
+| A peça se soltou no início | limpeza, nivelamento e adesão da mesa |
+| O Benchy tem muitos fios | temperatura e retração |
+| Uma camada aparece deslocada | correia, polia e possível colisão |
+| As paredes têm falhas | fluxo, bico e caminho do filamento |
+
+::: {.callout}
+Antes de alterar o perfil inteiro, observe o sintoma, formule uma hipótese e mude uma variável por vez.
+:::
+
+::: {.notes}
+Use este slide como uma atividade de cinco minutos. Peça que as duplas escolham uma situação, expliquem o raciocínio e indiquem que evidência procurariam no preview ou na máquina.
+:::
+
+## O que mudou recentemente?
+
+| Avanço | O que melhora | O que continua exigindo entendimento |
+|---|---|---|
+| maior velocidade | tempo de produção | vibração, fluxo, resfriamento |
+| input shaping | ringing/ghosting | calibração e rigidez |
+| calibração automática | malha/primeira camada | superfície limpa e mecânica |
+| multicolor | aparência e materiais | troca, purga e desperdício |
+| monitoramento | repetibilidade | sensores e configuração |
+
+::: {.notes}
+Velocidade não é apenas aumentar mm/s: aceleração, jerk/junction deviation, fluxo volumétrico e ressonâncias limitam o sistema. Input shaping compensa vibrações medidas ou estimadas; não corrige uma estrutura solta.
+:::
+
+## Onde a impressão 3D faz sentido?
+
+::: {.columns}
+::: {.column}
+**Excelente para:**
+- prototipagem e iteração;
+- gabaritos e suportes;
+- peças personalizadas;
+- educação e acessibilidade;
+- produção em baixo volume.
+:::
+::: {.column}
+**Exige cuidado em:**
+- peças críticas de segurança;
+- alta temperatura e carga contínua;
+- tolerâncias muito apertadas;
+- grandes séries;
+- descarte, fumos e pós-processamento.
+:::
+:::
+
+## Referência rápida para levar
+
+::: {.small}
+**Fluxo:** CAD → STL/3MF → PrusaSlicer → G-code → primeira camada → peça.  
+**Comece simples:** PLA, 0,20 mm, 3 paredes, 15–20% de preenchimento, orientação com boa base.  
+**Verifique sempre:** material, perfil, bico, mesa, temperatura, suportes, preview e segurança.  
+**Repositórios:** Printables, Thingiverse, MakerWorld e modelos próprios — confira licença, escala e integridade antes de imprimir.
+:::
+
+::: {.notes}
+Esta lâmina funciona como resumo final. Reforce que repositórios têm licenças diferentes e que um modelo baixado não substitui a verificação no fatiador.
+:::
